@@ -1,0 +1,343 @@
+@import "tailwindcss";
+
+@theme {
+  --color-obsidian: #070707;
+  --color-charcoal: #111111;
+  --color-graphite: #242424;
+  --color-ivory: #e8e4da;
+  --color-gold: #b69a62;
+  --color-maroon: #3b1017;
+  --color-navy: #0b1624;
+  --color-espresso: #241914;
+
+  --font-display: var(--font-cormorant), "Times New Roman", serif;
+  --font-ui: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --ease-atelier: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  --grain-opacity: 0.055;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  background-color: #070707;
+  color: #e8e4da;
+  scroll-behavior: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  background-color: #070707;
+  color: #e8e4da;
+  font-family: var(--font-ui);
+  overflow-x: hidden;
+  font-synthesis-weight: none;
+}
+
+::selection {
+  background: #b69a62;
+  color: #070707;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Hide native cursor only where the custom cursor is active */
+@media (hover: hover) and (pointer: fine) {
+  html.has-cursor,
+  html.has-cursor * {
+    cursor: none !important;
+  }
+}
+
+/* ---------- TYPOGRAPHY ---------- */
+.display {
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: -0.015em;
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+
+.display-italic {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: -0.01em;
+}
+
+.label {
+  font-family: var(--font-ui);
+  font-size: 9.5px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+@media (min-width: 768px) {
+  .label {
+    font-size: 10.5px;
+  }
+}
+
+.label-sm {
+  font-family: var(--font-ui);
+  font-size: 8.5px;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.serif-body {
+  font-family: var(--font-display);
+  font-weight: 300;
+  line-height: 1.42;
+  letter-spacing: 0.005em;
+}
+
+/* ---------- STRUCTURE ---------- */
+.hairline {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(232, 228, 218, 0.22) 12%,
+    rgba(232, 228, 218, 0.22) 88%,
+    transparent
+  );
+  height: 1px;
+}
+
+.hairline-gold {
+  background: linear-gradient(90deg, transparent, rgba(182, 154, 98, 0.75), transparent);
+  height: 1px;
+}
+
+.frame-line {
+  position: absolute;
+  background: rgba(232, 228, 218, 0.14);
+}
+
+/* ---------- GRAIN + VIGNETTE ---------- */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: -150%;
+  z-index: 90;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-shift 900ms steps(3) infinite;
+  will-change: transform;
+}
+
+@keyframes grain-shift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  33% {
+    transform: translate3d(-2%, 1.5%, 0);
+  }
+  66% {
+    transform: translate3d(1.5%, -2%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.vignette::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 90% at 50% 45%,
+    transparent 30%,
+    rgba(7, 7, 7, 0.55) 78%,
+    rgba(7, 7, 7, 0.92) 100%
+  );
+}
+
+.scan-lines {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(232, 228, 218, 0.035) 0px,
+    rgba(232, 228, 218, 0.035) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* ---------- MEDIA ---------- */
+.media-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.img-cinema {
+  filter: contrast(1.06) saturate(0.86) brightness(0.92);
+}
+
+.duotone {
+  filter: grayscale(1) contrast(1.15) brightness(0.78);
+}
+
+/* ---------- BUTTONS ---------- */
+.btn-line {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.05rem 2rem;
+  border: 1px solid rgba(232, 228, 218, 0.24);
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 600ms var(--ease-atelier), border-color 600ms var(--ease-atelier);
+}
+
+.btn-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #e8e4da;
+  transform: translateY(101%);
+  transition: transform 720ms var(--ease-atelier);
+}
+
+.btn-line:hover {
+  color: #070707;
+  border-color: #e8e4da;
+}
+
+.btn-line:hover::after {
+  transform: translateY(0);
+}
+
+.btn-gold {
+  border-color: rgba(182, 154, 98, 0.5);
+  color: #e8e4da;
+}
+
+.btn-gold::after {
+  background: #b69a62;
+}
+
+.btn-gold:hover {
+  color: #070707;
+  border-color: #b69a62;
+}
+
+.btn-solid {
+  background: #e8e4da;
+  color: #070707;
+  border-color: #e8e4da;
+}
+
+.btn-solid::after {
+  background: #070707;
+}
+
+.btn-solid:hover {
+  color: #e8e4da;
+}
+
+/* ---------- UNDERLINE ---------- */
+.uline {
+  position: relative;
+  display: inline-block;
+}
+
+.uline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 640ms var(--ease-atelier);
+}
+
+.uline:hover::after {
+  transform: scaleX(1);
+}
+
+.uline-active::after {
+  transform: scaleX(1);
+}
+
+/* ---------- CURSOR ---------- */
+.cursor-shell {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+
+/* ---------- MISC ---------- */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.mask-fade-b {
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+}
+
+.will-clip {
+  will-change: clip-path, transform, opacity;
+}
+
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+}
+
+input:focus {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain::after {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
